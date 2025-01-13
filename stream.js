@@ -9,4 +9,4 @@ readStream.on('data',(chunk)=>{
     writeStream.write('\nNEW CHUNK\n');
     writeStream.write(chunk);
 })
-
+// readstream.pipe(writestream); // this is the same as the above code
