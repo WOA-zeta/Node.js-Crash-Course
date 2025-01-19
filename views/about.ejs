@@ -1,28 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | <%= title %></title>
-</head>
+    <%- include('./partials/head.ejs')  %>
+    <link rel="stylesheet" href="style.css">
 <body>
-    <nav>
-        <div class="site-title">
-            <a href="/"><h1>Company Name</h1></a>
-            <p>A site </p>
-        </div>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/blogs/create">New Blogs</a></li>
-    </nav>
+    <%- include('./partials/nav.ejs')  %>
     <div class="about content">
         <h2>About Us</h2>
         <p>Lore asdf</p>
         <p>asdasdasasd</p>
     </div>
-    <footer>
-        <p>Company Name &copy; 2023</p>
-    </footer>
+    <%- include('./partials/footer.ejs')  %>
 </body>
 </html>
