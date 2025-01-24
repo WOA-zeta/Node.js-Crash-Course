@@ -16,5 +16,5 @@ const blogSchema = new Schema({
     }
 },{timestamps:true})
 
-const Blog = mongoose.model('Blog', blogSchema);//model is a function that takes two arguments, the name of the collection and the schema of the collection
+const Blog = mongoose.model('blogs', blogSchema);//model is a function that takes two arguments, the name of the collection and the schema of the collection
 module.exports = Blog;
