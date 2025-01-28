@@ -14,8 +14,10 @@
             <% blogs.forEach(blog =>{ %>
                 
 
-                <h3 class="title"><%= blog.title %></h3>
-                <p class=""snippet><%= blog.snippet %></p>
+                <a class="single" href="/blogs/<%= blog.id %>">
+                    <h3 class="title"><%= blog.title %></h3>
+                    <p class="snippet"><%= blog.snippet %></p>
+                </a>
                 <% }) %>
             <% }else{ %>
                 <h3 class="title">Nothing to see here for now</h3>

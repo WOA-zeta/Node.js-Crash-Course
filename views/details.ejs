@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs')  %>
+
+<body>
+
+    <% const name = 'mario' %>
+
+    <%- include('./partials/nav.ejs')  %>
+
+    <div class="blogs content">
+        <h3 class="title"><%= blog.title %></h3>
+        <div class="content">
+            <p><%= blog.body %></p>
+        </div>
+
+        <button id="delete" class="delete" data-doc="<%= blog.id %>">Delete</button>
+
+        
+    </div>
+    <%- include('./partials/footer.ejs')  %>
+
+    <script>
+        const trash = document.getElementById('delete');
+
+        trash.addEventListener('click',(e)=>{
+            const endpoint = `/blogs/${trash.dataset.doc}`
+            fetch(endpoint,{
+                method:"DELETE"
+            })
+            .then((res)=>res.json())
+            .then((data)=>window.location.href=data.redirect)
+            .catch((err)=>{})
+        })
+    </script>
+</body>
+</html

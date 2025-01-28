@@ -6,7 +6,7 @@ const Blog = require('./models/blog');
 const app = express();
 
 const dbURI = 'mongodb+srv://zeta:zeta1234@nodetuts.rigzm.mongodb.net/node-tuts?retryWrites=true&w=majority&appName=nodetuts';//make it a secret using environment variables in the waht is called a .env file and require dotenv package
-mongoose.connect(dbURI,    { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbURI)
 .then((result)=> app.listen(3000))
 .catch((err)=> console.log(err));
 
@@ -17,7 +17,7 @@ app.set('view engine','ejs');
 
 //middleware & static files
 app.use(express.static('public'));
-
+app.use(express.urlencoded({extended:true}));//this middleware will parse the form data and add it to the request object//allow the use of req.body
 app.use(morgan('dev'));
 
 //mongoose and mongo sandbox routes
@@ -37,12 +37,7 @@ app.get('/add-blog',(req,res)=>{
 
 app.get('/',(req,res)=>{
     // res.send('<p>home page</p>');
-    const blogs = [
-        {title: 'Yoshi finds eggs', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-        {title: 'Mario finds stars', snippet: 'Lorem ipsum dolor sit amet consectetur'},
-        {title: 'How to defeat bowser', snippet: 'Lorem ipsum dolor sit amet consectetur'}
-    ];
-    res.render('index', {title: 'Home', blogs:blogs});
+    res.redirect('/blogs');
 });
 
 app.get('/all-blogs',(req,res)=>{
@@ -51,6 +46,42 @@ app.get('/all-blogs',(req,res)=>{
         res.send(result);
     })
 })
+
+app.get('/blogs',(req,res)=>{
+    Blog.find().sort({createdAt: -1})
+    .then((result)=>{
+        res.render('index', {title: 'All Blogs', blogs: result});
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+})
+
+app.delete('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id)
+    .then((result)=>{
+        res.json({redirect:'/blogs'})
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+})
+
+app.get('/blogs/:id',(req,res)=>{
+    const id = req.params.id;
+    Blog.findById(id)
+    .then((result)=>{
+        res.render('details', {title:"testing", blog:result})
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+})
+
+
+
+
 
 app.get('/single-blog',(req,res)=>{
     Blog.findById()
@@ -62,6 +93,19 @@ app.get('/about',(req,res)=>{
     res.render('about', {title: 'About'});
 
 });
+
+app.post('/blogs', (req,res)=>{//received post request from teh form and trigger this function which then saves the data to the database
+    const blog = new Blog(
+        req.body
+    );
+    blog.save()
+        .then((result)=>{
+            res.redirect('/blogs');
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+})
 
 app.get('/blogs/create',(req,res)=>{
     res.render('create', {title: 'Create'});
