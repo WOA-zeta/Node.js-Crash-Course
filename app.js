@@ -1,7 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose');
-
 const blogRoute = require('./routes/blogRoute')
 
 const app = express();
@@ -20,7 +19,6 @@ app.set('view engine','ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({extended:true}));//this middleware will parse the form data and add it to the request object//allow the use of req.body
 app.use(morgan('dev'));
-
 //mongoose and mongo sandbox routes
 app.get('/',(req,res)=>{
     // res.send('<p>home page</p>');
@@ -35,6 +33,7 @@ app.get('/about',(req,res)=>{
 });
 
 app.use(blogRoute)
+
 
 app.use((req,res)=>{
     res.status(404).render('404', {title: 'Error'})//res.satus(404) will return the res object with status 404 so that we can chain the sendFile method

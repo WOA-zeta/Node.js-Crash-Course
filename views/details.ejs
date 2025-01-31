@@ -24,7 +24,7 @@
         const trash = document.getElementById('delete');
 
         trash.addEventListener('click',(e)=>{
-            const endpoint = `/blogs/${trash.dataset.doc}`
+            const endpoint = `/blog/${trash.dataset.doc}/delete`
             fetch(endpoint,{
                 method:"DELETE"
             })
