@@ -1,18 +1,10 @@
 const express = require('express');
-const Blog = require('../models/blog');
+const blogController = require('../controller/blogController');
 const router = express.Router();
 
 
 
-router.get('/blogs',(req,res)=>{
-    Blog.find().sort({createdAt: -1})
-    .then((result)=>{
-        res.render('index', {title: 'All Blogs', blogs: result});
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-})
+router.get('/blogs',blogController.blog_index);//get request to the /blogs route and trigger the blog_index function in the blogController
 
 router.post('/blogs', (req,res)=>{//received post request from teh form and trigger this function which then saves the data to the database
     const blog = new Blog(
@@ -34,19 +26,7 @@ router.get('/blogs/create',(req,res)=>{
 })
 
 
-router.get('/blogs/add-blog',(req,res)=>{
-    const blog = new Blog({
-        title: 'another new blog',
-        snippet: 'about my new blog',
-        body: 'more about my new blog'
-    });
-    blog.save()
-        .then((result)=>{
-            res.send(result)
-        })        .catch((err)=>{
-            console.log(err);
-        })
-})
+router.get('/blogs/add-blog',blogController.blog_create);//get request to the /blogs/add-blog route and trigger the blog_create_get function in the blogController
 
 router.get('/blogs/all-blogs',(req,res)=>{
     Blog.find()
